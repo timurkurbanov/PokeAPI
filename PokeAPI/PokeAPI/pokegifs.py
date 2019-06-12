@@ -1,15 +1,21 @@
 import jason
 import requests
-key = os.environ.get("GIPHY_KEY")
+KEY = os.environ.get("GIPHY_KEY")
 
-res = requests.get("http://pokeapi.co/api/v2/pokemon/pikachu/")
-body = json.loads(res.content)
-print(body["name"])
-print(body["id"])
-print(body["types"])
+def get_json(url):
+    res = requests.get(url)
+    return json.loads(res.content)
 
-url = "https://api.giphy.com/v1/gifs/search?api_key={}&q=pikachu&rating=g".format(key)
-res1 = requests.get(url)
-body1 = json.loads(res1.content)
-giphy_url = body1['data'][0]['url']
+
+pokemon = get_json("http://pokeapi.co/api/v2/pokemon/pikachu/")
+
+
+print(pokemon["name"])
+print(pokemon["id"])
+print(pokemon["types"])
+
+
+search_results = get_json(f"https://api.giphy.com/v1/gifs/search?api_key={KEY}&q=pikachu&rating=g")
+
+giphy_url = search_results['data'][0]['url']
 print(giphy_url)
